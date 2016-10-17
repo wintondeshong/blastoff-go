@@ -1,0 +1,3 @@
+### Blastoff Slackbot
+
+Scaffolds client projects in google drive, slack, source control, and more...

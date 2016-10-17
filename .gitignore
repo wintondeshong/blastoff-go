@@ -1,0 +1,44 @@
+## MAC OS
+.DS_Store
+
+## EMACS
+*~
+\#*
+.\#*
+*_flymake.js
+
+## VIM
+*.swp
+
+## IDEA / RUBYMINE
+.idea
+
+## PROJECT::SPECIFIC
+bower_components/
+/.bundle
+/.sass-cache/
+/config/database.yml
+/config/heroku_env.rb
+/coverage
+/db/*.sqlite3
+/.env
+/env
+/LibreOffice/
+/log/*
+!/log/.keep
+/spec/fixtures/vcr_cassettes/*
+/tmp
+.env
+public/assets/
+public/docs/
+public/system/
+dump.rdb
+/doc/*
+!/doc/README_FOR_APP.md
+app/assets/javascripts/formbuilder/node_modules/
+
+client_secret.json
+config.yml
+
+.env
+blastoff-go
