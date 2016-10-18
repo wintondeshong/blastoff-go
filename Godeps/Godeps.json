@@ -1,0 +1,16 @@
+{
+	"ImportPath": "github.com/wintondeshong/blastoff-go",
+	"GoVersion": "go1.7",
+	"GodepVersion": "v74",
+	"Deps": [
+		{
+			"ImportPath": "github.com/joho/godotenv",
+			"Comment": "v1-10-g4ed1339",
+			"Rev": "4ed13390c0acd2ff4e371e64d8b97c8954138243"
+		},
+		{
+			"ImportPath": "golang.org/x/net/websocket",
+			"Rev": "88c1a61b3dd4d98651f24775ca288fac5d2544ce"
+		}
+	]
+}

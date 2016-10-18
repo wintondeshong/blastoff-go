@@ -17,29 +17,30 @@ func main() {
 	ws, id := initialize()
 	fmt.Println("blastoffbot ready, ^C exits")
 
+	handlers := make([]lib.ISlackHandler, 1)
+	handlers[0] = &lib.StockHandler{}
+
 	for {
-		// read each incoming message
 		m, err := lib.GetMessage(ws)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		// see if we're mentioned
-		if m.Type == "message" && strings.HasPrefix(m.Text, "<@"+id+">") {
-			// if so try to parse if
-			parts := strings.Fields(m.Text)
-			if len(parts) == 3 && parts[1] == "stock" {
-				// looks good, get the quote and reply with the result
-				go func(m lib.Message) {
-					m.Text = lib.GetQuote(parts[2])
-					lib.PostMessage(ws, m)
-				}(m)
-				// NOTE: the Message object is copied, this is intentional
-			} else {
-				m.Text = fmt.Sprintf("sorry, that does not compute\n")
-				lib.PostMessage(ws, m)
-			}
+		if m.Type != "message" || ! strings.HasPrefix(m.Text, "<@" + id + ">") {
+			continue
 		}
+
+		//var handler lib.ISlackHandler = lib.StockHandler{}
+		handler := findHandler(handlers, m)
+		if handler == nil {
+			m.Text = fmt.Sprintf("Command not recognized\n")
+			lib.PostMessage(ws, m)
+			continue
+		}
+
+		go func(m lib.Message) {
+			handler.HandleMessage(ws, m)
+		}(m)
 	}
 }
 
@@ -65,4 +66,19 @@ func initialize() (*websocket.Conn, string) {
 
 	// start a websocket-based Real Time API session
 	return lib.SlackConnect(slackToken)
+}
+
+// Private Methods
+// ---------------
+
+func findHandler(handlers []lib.ISlackHandler, m lib.Message) lib.ISlackHandler {
+	for i := 0; i < len(handlers); i++ {
+		handler := handlers[i]
+
+		if handler.CanHandleMessage(m) {
+			return handler
+		}
+	}
+
+	return nil
 }
